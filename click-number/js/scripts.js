@@ -42,6 +42,9 @@ function initGame() {
         const y = Math.random() * (window.innerHeight - size - yOffset) + yOffset;
         circle.style.left = `${x}px`;
         circle.style.top = `${y}px`;
+        
+        // 数字が小さい方が手前に来るようにz-indexを設定
+        circle.style.zIndex = totalNumbersForThisGame - i + 1;
 
         circle.addEventListener('click', () => {
             if (i === currentNumber) {
