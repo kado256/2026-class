@@ -1,7 +1,106 @@
 body {
-  overflow: hidden;
+  text-align: center;
+  padding: 50px;
+  background-color: #f0f8ff
 }
 
 h1 {
     margin: 0;
+}
+
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #aaa;
+    display: inline-block;
+
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 18px;
+    background: #ffcc00;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+
+
+/* 運勢結果の文字スタイル：フォントを和風にして大きくする */
+#result {
+    display: block;
+    margin-top: 20px;
+    font-size: 20px; /* 周りの文字（あなたの運勢は…等）のサイズ */
+    color: #333;
+}
+
+.fortune-text {
+    font-size: 48px; /* 運勢だけをさらに大きく */
+    font-weight: bold;
+    font-family: "Hiragino Mincho ProN", "MS PMincho", serif; /* 明朝体で和風な印象に */
+    vertical-align: middle;
+}
+
+/* 大吉の時だけ虹色グラデーションでアニメーション */
+.fortune-text.rainbow-text {
+    background-image: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+    -webkit-background-clip: text; /* Webkitブラウザ用 */
+    background-clip: text;
+    color: transparent; /* テキストの色を透明にして背景グラデーションを表示 */
+    background-size: 200% auto; /* グラデーションの幅を広げてアニメーションの余地を作る */
+    animation: rainbow-animation 3s linear infinite; /* 3秒かけて線形に無限ループ */
+}
+
+@keyframes rainbow-animation {
+    0% {
+        background-position: 0% center; /* グラデーションの開始位置 */
+    }
+    50% {
+        background-position: 100% center; /* グラデーションを右に移動 */
+    }
+    100% {
+        background-position: 0% center; /* グラデーションを元の位置に戻す */
+    }
+}
+
+/* 結果が表示される時のアニメーション */
+.fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px); /* 少し下から浮き上がる */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* 画面全体を暗くする設定 */
+body.bad-luck {
+    background-color: #333; /* 背景を暗いグレーに */
+    transition: background-color 0.5s ease;
+    animation: shake 0.5s ease-in-out; /* 画面を揺らす */
+}
+
+/* 画面を揺らすアニメーション */
+@keyframes shake {
+    0% { transform: translate(0px, 0px); }
+    10% { transform: translate(-5px, -5px); }
+    20% { transform: translate(5px, 5px); }
+    30% { transform: translate(-5px, 5px); }
+    40% { transform: translate(5px, -5px); }
+    50% { transform: translate(-5px, -5px); }
+    60% { transform: translate(5px, 5px); }
+    70% { transform: translate(-5px, 5px); }
+    80% { transform: translate(5px, -5px); }
+    90% { transform: translate(-5px, -5px); }
+    100% { transform: translate(0px, 0px); }
 }
