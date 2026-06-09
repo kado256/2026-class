@@ -1,6 +1,6 @@
 document.getElementById('draw').addEventListener('click', function () {
     const resultElement = document.getElementById('result');
-    const omikujiResults = ['大吉', '中吉', '小吉', '末吉', '凶'];
+    const omikujiResults = ['超大吉', '大吉', '中吉', '小吉', '末吉', '凶'];
 
     resultElement.classList.remove('fade-in');
     document.body.classList.remove('bad-luck');
@@ -16,18 +16,21 @@ document.getElementById('draw').addEventListener('click', function () {
         resultElement.innerHTML = `あなたの運勢は… <span class="fortune-text ${rainbowClass}" ${colorStyle}>${result}</span>`;
         resultElement.classList.add('fade-in'); // CSSで定義するアニメーションクラスを追加
 
-        // 大吉の時だけ紙吹雪を降らせる
-        if (result === '大吉') {
+        if (result === '超大吉') {
+            // 超大吉：虹色テキスト + 紙吹雪
+            fortuneSpan.classList.add('rainbow-text');
             confetti({
-                particleCount: 150, // 大吉なので少し多めに
-                spread: 100,        // 広がりも大きく
+                particleCount: 150,
+                spread: 70,
                 origin: { y: 0.6 }
             });
-        }
-
-        // 凶の時だけ画面を暗くして揺らす演出を追加
-        if (result === '凶') {
+        } else if (result === '大吉') {
+            // 大吉：赤文字にする
+            fortuneSpan.classList.add('is-daikichi');
+        } else if (result === '凶') {
+            // 凶：画面全体を暗くして揺らす
             document.body.classList.add('bad-luck');
         }
     }, 500);
 });
+

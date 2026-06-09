@@ -33,7 +33,7 @@ button {
 #result {
     display: block;
     margin-top: 20px;
-    font-size: 20px; /* 周りの文字（あなたの運勢は…等）のサイズ */
+    font-size: 20px; 
     color: #333;
 }
 
@@ -44,7 +44,12 @@ button {
     vertical-align: middle;
 }
 
-/* 大吉の時だけ虹色グラデーションでアニメーション */
+/* 大吉用の赤文字 */
+.is-daikichi {
+    color: #ff0000 !important;
+}
+
+/* 超大吉の時だけ虹色グラデーションでアニメーション */
 .fortune-text.rainbow-text {
     background-image: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
     -webkit-background-clip: text; /* Webkitブラウザ用 */
