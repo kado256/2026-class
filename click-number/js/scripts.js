@@ -1,11 +1,10 @@
 const container = document.getElementById('game-container');
 const timerDisplay = document.getElementById('timer');
 const replayButton = document.getElementById('replay-button');
-const difficultySelect = document.getElementById('difficulty'); // New
-const startGameButton = document.getElementById('start-game-button'); // New
-const difficultyLabel = document.querySelector('label[for="difficulty"]'); // New
+const difficultySelect = document.getElementById('difficulty'); 
+const startGameButton = document.getElementById('start-game-button'); 
+const difficultyLabel = document.querySelector('label[for="difficulty"]');
 
-// totalNumbers は難易度選択によって動的に決定されるため、グローバル定数から削除
 let currentNumber = 1;
 let startTime;
 let timerInterval;
@@ -33,12 +32,11 @@ function initGame() {
         circle.style.width = `${size}px`;
         circle.style.height = `${size}px`;
 
-        // ランダムな色 (HSLを使用して鮮やかな色を生成)
+        // ランダムな色
         const hue = Math.floor(Math.random() * 360);
         circle.style.backgroundColor = `hsl(${hue}, 70%, 60%)`;
 
         // ランダムな位置 (画面内に収まるように計算)
-        // 難易度選択とタイマー表示エリアを考慮してy座標の範囲を調整
         const yOffset = 150; // 難易度選択とタイマーのためのスペース
         const x = Math.random() * (window.innerWidth - size);
         const y = Math.random() * (window.innerHeight - size - yOffset) + yOffset;
