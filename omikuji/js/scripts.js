@@ -2,9 +2,8 @@ document.getElementById('draw').addEventListener('click', function () {
     const resultElement = document.getElementById('result');
     const omikujiResults = ['大吉', '中吉', '小吉', '末吉', '凶'];
 
-    // 演出の準備：一度アニメーション用クラスを外して、テキストを書き換える
     resultElement.classList.remove('fade-in');
-    document.body.classList.remove('bad-luck'); // 前回の演出をリセット
+    document.body.classList.remove('bad-luck');
     resultElement.textContent = '運勢を占っています...';
 
     // 500ミリ秒（0.5秒）後に結果を表示する
