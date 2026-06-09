@@ -1,6 +1,5 @@
 const container = document.getElementById('game-container');
 const timerDisplay = document.getElementById('timer');
-const replayButton = document.getElementById('replay-button');
 const difficultySelect = document.getElementById('difficulty'); 
 const startGameButton = document.getElementById('start-game-button'); 
 const difficultyLabel = document.querySelector('label[for="difficulty"]');
@@ -18,7 +17,6 @@ function initGame() {
     container.innerHTML = '';
     currentNumber = 1;
     timerDisplay.textContent = '0.000'; // 新しいゲーム開始時にタイマー表示をリセット
-    replayButton.style.display = 'none'; // リプレイボタンが確実に非表示になるようにする
 
     const totalNumbersForThisGame = parseInt(difficultySelect.value, 10); // 選択された難易度（数字の総数）を取得
 
@@ -75,18 +73,11 @@ function startTimer() {
 
 function stopTimer() {
     clearInterval(timerInterval);
-    // ゲーム終了後にリプレイボタンとゲームコントロールを表示する
-    replayButton.style.display = 'block';
+    // ゲーム終了後にゲームコントロールを表示する
     difficultySelect.style.display = 'inline-block';
     startGameButton.style.display = 'inline-block';
     if (difficultyLabel) difficultyLabel.style.display = 'inline-block';
 }
-
-replayButton.addEventListener('click', () => {
-    replayButton.style.display = 'none';
-    timerDisplay.textContent = '0.000';
-    initGame();
-});
 
 // 「ゲーム開始」ボタンのイベントリスナーを追加
 startGameButton.addEventListener('click', () => {
