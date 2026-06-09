@@ -1,12 +1,29 @@
 const container = document.getElementById('game-container');
 const timerDisplay = document.getElementById('timer');
-const totalNumbers = 10; // クリックする数字の総数
+const replayButton = document.getElementById('replay-button');
+const difficultySelect = document.getElementById('difficulty'); // New
+const startGameButton = document.getElementById('start-game-button'); // New
+const difficultyLabel = document.querySelector('label[for="difficulty"]'); // New
+
+// totalNumbers は難易度選択によって動的に決定されるため、グローバル定数から削除
 let currentNumber = 1;
 let startTime;
 let timerInterval;
 
 function initGame() {
-    for (let i = 1; i <= totalNumbers; i++) {
+    // ゲーム開始時に難易度選択と開始ボタンを非表示にする
+    difficultySelect.style.display = 'none';
+    startGameButton.style.display = 'none';
+    if (difficultyLabel) difficultyLabel.style.display = 'none';
+
+    container.innerHTML = '';
+    currentNumber = 1;
+    timerDisplay.textContent = '0.000'; // 新しいゲーム開始時にタイマー表示をリセット
+    replayButton.style.display = 'none'; // リプレイボタンが確実に非表示になるようにする
+
+    const totalNumbersForThisGame = parseInt(difficultySelect.value, 10); // 選択された難易度（数字の総数）を取得
+
+    for (let i = 1; i <= totalNumbersForThisGame; i++) { // 選択された数字の総数を使用
         const circle = document.createElement('div');
         circle.classList.add('circle');
         circle.textContent = i;
@@ -21,8 +38,10 @@ function initGame() {
         circle.style.backgroundColor = `hsl(${hue}, 70%, 60%)`;
 
         // ランダムな位置 (画面内に収まるように計算)
+        // 難易度選択とタイマー表示エリアを考慮してy座標の範囲を調整
+        const yOffset = 150; // 難易度選択とタイマーのためのスペース
         const x = Math.random() * (window.innerWidth - size);
-        const y = Math.random() * (window.innerHeight - size - 100) + 100;
+        const y = Math.random() * (window.innerHeight - size - yOffset) + yOffset;
         circle.style.left = `${x}px`;
         circle.style.top = `${y}px`;
 
@@ -35,7 +54,7 @@ function initGame() {
                 circle.style.visibility = 'hidden';
                 currentNumber++;
 
-                if (currentNumber > totalNumbers) {
+                if (currentNumber > totalNumbersForThisGame) { // 選択された数字の総数と比較
                     stopTimer();
                 }
             }
@@ -55,6 +74,22 @@ function startTimer() {
 
 function stopTimer() {
     clearInterval(timerInterval);
+    // ゲーム終了後にリプレイボタンとゲームコントロールを表示する
+    replayButton.style.display = 'block';
+    difficultySelect.style.display = 'inline-block';
+    startGameButton.style.display = 'inline-block';
+    if (difficultyLabel) difficultyLabel.style.display = 'inline-block';
 }
 
-initGame();
+replayButton.addEventListener('click', () => {
+    replayButton.style.display = 'none';
+    timerDisplay.textContent = '0.000';
+    initGame();
+});
+
+// 「ゲーム開始」ボタンのイベントリスナーを追加
+startGameButton.addEventListener('click', () => {
+    initGame();
+});
+
+// ページロード時にゲームを自動開始しない。ユーザーが「ゲーム開始」をクリックするまで待つ。
