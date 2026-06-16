@@ -44,3 +44,22 @@ body, html {
 #search-button:hover {
     background: #007bff;
 }
+
+#bottom-right-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 2;
+    padding: 10px 20px;
+    background-color: #1e90ff;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    font-size: 14px;
+}
+
+#bottom-right-button:hover {
+    background-color: #007bff;
+}

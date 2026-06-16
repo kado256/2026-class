@@ -5,7 +5,7 @@ var allMarkers = [];
 var mapbox = new mapboxgl.Map({
     container: 'map', // 地図を表示するコンテナID
     style: 'mapbox://styles/mapbox/streets-v11', // 表示する地図のスタイル
-    center: [139.6917, 35.6895], // 東京の経度と緯度
+    center: [131.2721280282764, 33.95699961309124], // 東京の経度と緯度
     zoom: 15 // 地図のズームレベル
 });
 
@@ -47,11 +47,15 @@ function initMap() {
 
 // 位置（緯度、経度）を基に周辺のホテル情報を検索する関数
 function searchHotels(lat, lng, placesService) {
-  // Places APIのリクエストを設定
+  const location = new google.maps.LatLng(lat, lng);
+  if (typeof location.lat() !== 'number' || typeof location.lng() !== 'number') {
+    console.error("Invalid location data provided to nearbySearch");
+    return; // Or handle the error appropriately
+  }
   const request = {
-    location: new google.maps.LatLng(lat, lng),
-    radius: '3000', // 検索半径（メートル）
-    type: ['lodging'] // 宿泊施設を検索
+    location,
+    radius: 3000, // 検索半径（メートル）
+    type: 'lodging' // 宿泊施設を検索
   };
 
   // Google Places APIの周辺検索を実行
@@ -86,3 +90,39 @@ function clearMarkers() {
     // 配列をリセット
     allMarkers = [];
 }
+
+// 右下ボタンがクリックされたときにCSVを読み込んでマーカーを立てる
+document.getElementById('bottom-right-button').addEventListener('click', function() {
+  fetch('https://raw.githubusercontent.com/sonatax/class-2025/refs/heads/main/map-api/data/toilet.csv')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('CSV の読み込みに失敗しました: ' + response.status);
+      }
+      return response.text();
+    })
+    .then(text => {
+      const lines = text.trim().split('\n');
+      lines.forEach(line => {
+        // CSVの各行を「番号,公園名,緯度,経度」で想定
+        const cols = line.split(',');
+        if (cols.length >= 4) {
+          const name = cols[1];
+          const lat = parseFloat(cols[2]);
+          const lng = parseFloat(cols[3]);
+          if (!isNaN(lat) && !isNaN(lng)) {
+            // ポップアップ付きマーカーを作成
+            const popup = new mapboxgl.Popup({ offset: 25 }).setText(name);
+            const marker = new mapboxgl.Marker({ color: '#FF0000' })
+              .setLngLat([lng, lat])
+              .setPopup(popup)
+              .addTo(mapbox);
+            allMarkers.push(marker);
+          }
+        }
+      });
+    })
+    .catch(error => {
+      console.error('Error loading CSV:', error);
+      alert('トイレデータの読み込みに失敗しました');
+    });
+});
